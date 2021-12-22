@@ -1,0 +1,108 @@
+Создать программный файл в текстовом формате, записать в него построчно данные, вводимые пользователем. Об окончании ввода данных будет свидетельствовать пустая строка.
+
+
+f_obj = open('test.txt', 'w')
+line = input('Введите текст \n')
+while line:
+    f_obj.writelines(line)
+    line = input('Введите текст \n')
+    if not line:
+        break
+
+f_obj.close()
+f_obj = open('test.txt', 'r')
+content = f_obj.readlines()
+print(content)
+f_obj.close()
+
+
+Создать текстовый файл (не программно), сохранить в нём несколько строк, выполнить подсчёт строк и слов в каждой строке.
+
+my_f = ['Доброе утро!\n', 'Добрый день!\n', 'Добрый вечер!\n']
+with open("test_2.txt", 'w+') as file_obj:
+    file_obj.writelines(my_f)
+with open("test_2.txt") as file_obj:
+    lines = 0
+    letters = 0
+    for line in file_obj:
+        lines += line.count("\n")
+        letters = len(line)-1
+        print(f"{letters} letters in one line")
+    print(f"String count is {lines}")
+    
+    Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов (не менее 10 строк). 
+    Определить, кто из сотрудников имеет оклад менее 20 тысяч, вывести фамилии этих сотрудников. Выполнить подсчёт средней величины дохода сотрудников.
+
+
+firm = {'Иванов': 20110, 'Петров': 19300, 'Сидоров': 16300, 'Федоров': 31000, 'Серова': 12700, 'Ткачева': 19205, 'Токарев': 19300, 'Федорова': 13300, 'Сидорова': 22200,
+        'Ковалев': 14100}
+try:
+    file_obj = open("test_3.txt", 'w')
+    for last_name, salary in firm.items():
+        file_obj.write(last_name + ':' + str(salary) + "\n")
+finally:
+    file_obj.close()
+summa = 0
+count = 0
+persons = []
+with open("test_3.txt", "r") as file_obj:
+    for line in file_obj:
+        print(line, end="")
+        tokens = line.split(':')
+        if int(tokens[1]) <= 20000:
+            persons.append(tokens[0])
+        summa += int(tokens[1])
+        count += 1
+result = summa / count
+print(f"persons: {persons}")
+print(f"averate: {result}")
+
+Создать (не программно) текстовый файл со следующим содержимым: 
+One — 1
+Two — 2
+Three — 3
+Four — 4
+Напишите программу, открывающую файл на чтение и считывающую построчно данные. При этом английские числительные должны заменяться на русские. 
+Новый блок строк должен записываться в новый текстовый файл.
+
+rus = {'One' : 'Один', 'Two' : 'Два', 'Three' : 'Три', 'Four' : 'Четыре'}
+new_file = []
+with open('file_4.txt', 'r') as file_obj:
+    #content = file_obj.read().split('\n')
+    for i in file_obj:
+        i = i.split(' ', 1)
+        new_file.append(rus[i[0]] + '  ' + i[1])
+    print(new_file)
+
+with open('file_4_new.txt', 'w') as file_obj_2:
+    file_obj_2.writelines(new_file)
+    
+ Создать (программно) текстовый файл, записать в него программно набор чисел, разделённых пробелами. Программа должна подсчитывать сумму чисел в файле и выводить её на экран.
+ def summary():
+    try:
+        with open('file_5.txt', 'w+') as file_obj:
+            line = input('Введите цифры через пробел \n')
+            file_obj.writelines(line)
+            my_numb = line.split()
+
+            print(sum(map(int, my_numb)))
+    except IOError:
+        print('Ошибка в файле')
+    except ValueError:
+        print('Ошибка ввода-вывода')
+summary()
+
+
+Сформировать (не программно) текстовый файл. В нём каждая строка должна описывать учебный предмет и наличие лекционных, практических и лабораторных занятий по предмету. 
+Сюда должно входить и количество занятий. Необязательно, чтобы для каждого предмета были все типы занятий.
+Сформировать словарь, содержащий название предмета и общее количество занятий по нему. Вывести его на экран.
+
+#import json
+
+subj = {}
+with open('file_6.txt', 'r') as write_f:
+    for line in write_f:
+        subject, lecture, practice, lab = line.split()
+        subj[subject] = int(lecture) + int(practice) + int(lab)
+    print(f'Общее количество часов по предмету - \n {subj}')
+
